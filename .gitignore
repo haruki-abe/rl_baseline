@@ -5,3 +5,5 @@ venv_gym/
 **/__pycache__/**
 my_code/
 __pycache__/
+algo/SAC/check.py 
+algo/SAC/SAC_test.py

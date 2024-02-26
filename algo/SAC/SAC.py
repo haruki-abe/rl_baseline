@@ -87,7 +87,7 @@ class SAC(object):
         self.alpha_tuing = alpha_tuning
 
         if alpha_tuning:
-            self.alpha_target = - torch.prod(torch.Tensor(action_space.shape)).to(device).item()
+            self.entropy_target = - torch.prod(torch.Tensor(action_space.shape)).to(device).item()
             self.log_alpha = torch.zeros(1, requires_grad=True, device=device)
             self.alpha_optimizer = torch.optim.Adam([self.log_alpha], lr=lr)
 
@@ -124,7 +124,7 @@ class SAC(object):
         if self.alpha_tuing:
             with torch.no_grad():
                 _, log_prob, _ = self.actor.sample(state)
-            alpha_loss = -(self.log_alpha.exp() * (log_prob + self.alpha_target).detach()).mean()
+            alpha_loss = -(self.log_alpha.exp() * (log_prob + self.entropy_target).detach()).mean()
 
             self.alpha_optimizer.zero_grad()
             alpha_loss.backward()

@@ -22,6 +22,7 @@ def eval_policy(policy,env_name,seed,eval_episode,record_video):
 
     avg_reward = 0.
     avg_entropy = 0.
+    num_steps = 0.
 
     for _ in range(eval_episode):
         state, done = eval_env.reset(), False
@@ -30,8 +31,9 @@ def eval_policy(policy,env_name,seed,eval_episode,record_video):
             state, reward, done, _ = eval_env.step(action)
             avg_reward += reward
             avg_entropy += entropy[0]
+            num_steps += 1
     avg_reward /= eval_episode
-    avg_entropy /= eval_episode
+    avg_entropy /= num_steps
 
     print("---------------------------------------")
     print(f"Evaluation over {eval_episode} episodes: {avg_reward:.3f}")
